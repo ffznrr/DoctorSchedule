@@ -1,3 +1,4 @@
+const { sequelize } = require("../models");
 const ScheduleServices = require("../services/Schedule_Services");
 
 class Schedule {
@@ -15,6 +16,34 @@ class Schedule {
       totalPages: totalPages,
       currentPage: page,
       limit: limit,
+    });
+  }
+
+  static async CreateDataSchedule(req, res, next) {
+    const { time_start, time_finish, quota, date_range, doctorId } = req.body;
+
+    let result = ScheduleServices.GetDatesInRange(date_range[0], date_range[1]);
+    const t = await sequelize.transaction();
+    for (let i = 0; i < result.length; i++) {
+      let day = new Date(result[i]).toLocaleDateString("id-ID", {
+        weekday: "long",
+      });
+      let date = result[i];
+      await ScheduleServices.CreateData(
+        day,
+        time_start,
+        time_finish,
+        quota,
+        date,
+        doctorId,
+        t
+      );
+    }
+
+    await t.commit();
+
+    return res.status(200).json({
+      message: "Jadwal berhasil dibuat untuk rentang tanggal yang diberikan.",
     });
   }
 }

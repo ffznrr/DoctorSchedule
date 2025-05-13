@@ -25,6 +25,45 @@ class ScheduleServices {
       totalPages: Math.ceil(totalCount / limit),
     };
   }
+
+  static async CreateData(
+    day,
+    time_start,
+    time_finish,
+    quota = 10,
+    date,
+    doctorId,
+    transaction
+  ) {
+    await Schedule.create(
+      {
+        day,
+        time_start,
+        time_finish,
+        quota,
+        date,
+        doctorId,
+      },
+      {
+        transaction: transaction,
+      }
+    );
+  }
+
+  static GetDatesInRange(startDate, endDate) {
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    const dates = [];
+
+    let currentDate = start;
+
+    while (currentDate <= end) {
+      dates.push(currentDate.toISOString().split("T")[0]);
+      currentDate.setDate(currentDate.getDate() + 1);
+    }
+
+    return dates;
+  }
 }
 
 module.exports = ScheduleServices;

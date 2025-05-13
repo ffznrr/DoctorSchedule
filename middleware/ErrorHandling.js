@@ -11,6 +11,7 @@ const ErrorHandling = (error, req, res, next) => {
     status = 400;
     message = error.error[0].message;
   }
+  console.log(error.name);
 
   if (
     error.name === "SequelizeDatabaseError" ||
