@@ -11,6 +11,11 @@ const ErrorHandling = (error, req, res, next) => {
     status = 400;
     message = error.error[0].message;
   }
+
+  if (error.name === "Kesalahan Terdapat Di Pemilihan Waktu") {
+    status = 400;
+    message = "Kesalahan Terdapat Di Pemilihan Waktu Atau Tanggal";
+  }
   console.log(error.name);
 
   if (
@@ -18,12 +23,12 @@ const ErrorHandling = (error, req, res, next) => {
     error.name === "SequelizeForeignKeyConstraintError"
   ) {
     status = 400;
-    message = "Invalid or wrong input (400)";
+    message = error;
   }
 
   if (error.name === "LoginError") {
     status = 401;
-    message = "Please login first (401)";
+    message = "Please login first";
   }
 
   if (error.name === "Unauthorized" || error.name === "JsonWebTokenError") {
@@ -33,12 +38,12 @@ const ErrorHandling = (error, req, res, next) => {
 
   if (error.name === "UNAUTHENTICATED") {
     status = 403;
-    message = "Access denied (403)";
+    message = "Access denied";
   }
 
   if (error.name === "NotFound") {
     status = 404;
-    message = "Not Found (404)";
+    message = "Not Found";
   }
 
   res.status(status).json({

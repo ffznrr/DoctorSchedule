@@ -20,7 +20,16 @@ class Schedule {
   }
 
   static async CreateDataSchedule(req, res, next) {
-    const { time_start, time_finish, quota, date_range, doctorId } = req.body;
+    const { time_start, time_finish, quota, date_range, doctorId, status } =
+      req.body;
+
+    const validation = ScheduleServices.ValidateTime(
+      time_start,
+      time_finish,
+      date_range
+    );
+
+    if (!validation) throw { name: "Kesalahan Terdapat Di Pemilihan Waktu" };
 
     let result = ScheduleServices.GetDatesInRange(date_range[0], date_range[1]);
     const t = await sequelize.transaction();
@@ -35,6 +44,7 @@ class Schedule {
         time_finish,
         quota,
         date,
+        status,
         doctorId,
         t
       );

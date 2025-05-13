@@ -68,6 +68,18 @@ module.exports = (sequelize, DataTypes) => {
           },
         },
       },
+      status: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        validate: {
+          notEmpty: {
+            msg: "Status Is Required",
+          },
+          notNull: {
+            msg: "Status Is Required",
+          },
+        },
+      },
       doctorId: {
         type: DataTypes.INTEGER,
         allowNull: false,
