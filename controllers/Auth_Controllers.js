@@ -1,6 +1,3 @@
-const { comparePass } = require("../helper/bcrypt");
-const { sign } = require("../helper/jwt");
-const { User } = require("../models");
 const AuthServices = require("../services/Auth_Services");
 
 class Authentication {

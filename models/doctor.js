@@ -26,10 +26,6 @@ module.exports = (sequelize, DataTypes) => {
           notEmpty: {
             msg: "name Is Required",
           },
-          is: {
-            args: /^[A-Za-z\s]+$/i,
-            msg: "name must not contain any symbols and numbers",
-          },
         },
       },
     },

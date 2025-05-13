@@ -1,0 +1,29 @@
+const { verifyToken } = require("../helper/jwt");
+const { User } = require("../models");
+
+const Authorization = async (req, res, next) => {
+  try {
+    const { authorization } = req.headers;
+
+    if (!authorization) throw { name: "UNAUTHENTICATED" };
+    const token = authorization.split(" ")[1];
+    if (!token) throw { name: "UNAUTHENTICATED" };
+
+    const payload = verifyToken(token);
+
+    const foundUser = await User.findByPk(payload.id);
+
+    if (!foundUser) throw { name: "UNAUTHENTICATED" };
+    req.additionalData = {
+      id: foundUser.id,
+      username: foundUser.username,
+      role: foundUser.role,
+    };
+
+    next();
+  } catch (error) {
+    next(error);
+  }
+};
+
+module.exports = Authorization;

@@ -11,7 +11,13 @@ class DoctorServices {
     return {
       result,
       totalCount,
+      totalPages: Math.ceil(totalCount / limit),
     };
+  }
+
+  static async CreateData(name) {
+    const result = await Doctor.create({ name });
+    return result;
   }
 }
 
