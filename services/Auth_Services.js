@@ -20,14 +20,10 @@ class AuthServices {
   static async LoginServices(username, password) {
     const findOne = await User.findOne({ where: { username } });
     if (!findOne) {
-      return res.status(403).json({
-        Message: "Username/Password Salah",
-      });
+      throw { name: "Username/Password Salah" };
     }
     if (!comparePass(password, findOne.password)) {
-      return res.status(403).json({
-        Message: "Username/Password Salah",
-      });
+      throw { name: "Username/Password Salah" };
     }
     const payload = {
       id: findOne.id,

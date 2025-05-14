@@ -16,7 +16,6 @@ const ErrorHandling = (error, req, res, next) => {
     status = 400;
     message = "Kesalahan Terdapat Di Pemilihan Waktu Atau Tanggal";
   }
-  console.log(error.name);
 
   if (
     error.name === "SequelizeDatabaseError" ||
@@ -24,6 +23,11 @@ const ErrorHandling = (error, req, res, next) => {
   ) {
     status = 400;
     message = error;
+  }
+
+  if (error.name == "Username/Password Salah") {
+    status = 400;
+    message = "Username/Password Salah";
   }
 
   if (error.name === "LoginError") {
